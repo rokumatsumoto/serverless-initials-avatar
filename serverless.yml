@@ -11,7 +11,8 @@
 #
 # Happy Coding!
 
-service: serverless-initials-avatar
+service:
+  name: ${self:custom.service_name}
 
 package:
   exclude:
@@ -28,20 +29,37 @@ package:
 provider:
   name: aws
   runtime: nodejs10.x
-  # you can overwrite defaults here
-  #  stage: dev
-  #  region: us-east-1
+  region: ${self:custom.region}
+  profile: ${self:custom.profile}
+  environment:
+    DESTINATION_BUCKET: ${self:custom.destination_bucket}
+    REGION: ${self:custom.region}
   iamRoleStatements:
-    - Effect: 'Allow'
+    - Effect: Allow
       Action:
-        - 'lambda:InvokeFunction'
-      Resource: '*'
+        - s3:PutObject
+        - s3:PutObjectAcl
+      Resource: "arn:aws:s3:::${self:custom.destination_bucket}/*"
 
 custom:
+  service_name: serverless-initials-avatar
+  profile: ${env:PROFILE}
+  stage: ${opt:stage, self:custom.defaultStage}
+  region: ${env:REGION}
+  source_bucket: ${env:SOURCE_BUCKET}
+  destination_bucket: ${env:DESTINATION_BUCKET}
+  defaultStage: dev
   webpack:
     webpackConfig: ./webpack.config.js
-    includeModules: true
+      includeModules:
+        forceExclude:
+          - aws-sdk
     packager: 'yarn' # Packager that will be used to package your external modules
+  stages:
+  - ${opt:stage}
+  - dev
+  - integration
+  - production
   warmup:
     enabled: true
     events:
