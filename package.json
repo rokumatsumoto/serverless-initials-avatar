@@ -57,6 +57,7 @@
     "@dicebear/avatars-initials-sprites": "^1.0.9",
     "@types/aws-lambda": "^8.10.31",
     "@types/node": "^12.7.5",
+    "@types/sharp": "^0.23.1",
     "aws-sdk": "^2.529.0",
     "debug": "^4.1.1",
     "mime": "^2.4.4",
