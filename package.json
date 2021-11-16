@@ -58,7 +58,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {
-    "aws-sdk": "^2.529.0",
+    "aws-sdk": "^2.814.0",
     "debug": "^4.1.1",
     "initials": "^3.0.1",
     "mime": "^2.4.4",
